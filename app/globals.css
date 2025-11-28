@@ -1,0 +1,90 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #0f0f13;
+  --panel: rgba(255, 255, 255, 0.05);
+  --accent-1: #ff4d4d;
+  /* Red/Pinkish for active elements */
+  --accent-2: #a6a6a6;
+  /* Grey for secondary */
+  --muted: #666666;
+  --text-main: #ffffff;
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-highlight: rgba(255, 255, 255, 0.05);
+  --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text-main);
+  background-image:
+    radial-gradient(circle at 15% 50%, rgba(76, 29, 149, 0.15), transparent 25%),
+    radial-gradient(circle at 85% 30%, rgba(255, 77, 77, 0.1), transparent 25%);
+  background-attachment: fixed;
+}
+
+/* Glassmorphism Utilities */
+.glass {
+  background: var(--panel);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow);
+}
+
+.glass-hover:hover {
+  background: var(--glass-highlight);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.vinyl-spin {
+  animation: spin 4s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .glass {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  main {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+
+  /* Hide volume on mobile */
+  .volume-control {
+    display: none;
+  }
+}

@@ -1,0 +1,34 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    function isAdmin() {
+      // In storage rules we can't easily access firestore to check isAdmin field without custom claims.
+      // For this demo, we will restrict admin paths to authenticated users, 
+      // but in production you should use Custom Claims or strictly server-side uploads.
+      // Here we assume if you can write to 'ads', you are admin (enforced by app logic + firestore rules for metadata).
+      return isAuthenticated(); 
+    }
+
+    // Tracks: Public read (streaming). Auth write.
+    match /tracks/{trackId}/{allPaths=**} {
+      allow read: if true;
+      allow write: if isAuthenticated();
+    }
+
+    // Ads: Public read. Admin write.
+    match /ads/{adId}/{allPaths=**} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // User uploads (avatars etc)
+    match /users/{userId}/{allPaths=**} {
+      allow read: if true;
+      allow write: if request.auth.uid == userId;
+    }
+  }
+}
